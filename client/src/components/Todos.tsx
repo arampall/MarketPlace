@@ -1,4 +1,3 @@
-import dateFormat from 'dateformat'
 import { History } from 'history'
 import update from 'immutability-helper'
 import * as React from 'react'
@@ -14,31 +13,39 @@ import {
   Loader
 } from 'semantic-ui-react'
 
-import { createTodo, deleteTodo, getTodos, patchTodo } from '../api/todos-api'
+import { createItem, deleteItem, getItems, patchItem } from '../api/todos-api'
 import Auth from '../auth/Auth'
-import { Todo } from '../types/Todo'
+import { Listing } from '../types/Listing'
 
-interface TodosProps {
+interface ListingsProps {
   auth: Auth
   history: History
 }
 
-interface TodosState {
-  todos: Todo[]
-  newTodoName: string
+interface ListingsState {
+  listings: Listing[]
+  newItemName: string
+  newItemDescription: string
+  newItemCategory: string
+  newItemPrice: number
+  newItemCondition: string
   loadingTodos: boolean
 }
 
-export class Todos extends React.PureComponent<TodosProps, TodosState> {
-  state: TodosState = {
-    todos: [],
-    newTodoName: '',
+export class Todos extends React.PureComponent<ListingsProps, ListingsState> {
+  state: ListingsState = {
+    listings: [],
+    newItemName: '',
+    newItemDescription: '',
+    newItemCategory: '',
+    newItemPrice: 0,
+    newItemCondition: '',
     loadingTodos: true
   }
 
-  handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  /*handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ newTodoName: event.target.value })
-  }
+  }*/
 
   onEditButtonClick = (todoId: string) => {
     this.props.history.push(`/todos/${todoId}/edit`)
@@ -46,25 +53,31 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
 
   onTodoCreate = async (event: React.ChangeEvent<HTMLButtonElement>) => {
     try {
-      const dueDate = this.calculateDueDate()
-      const newTodo = await createTodo(this.props.auth.getIdToken(), {
-        name: this.state.newTodoName,
-        dueDate
+      const newListing = await createItem(this.props.auth.getIdToken(), {
+        name: this.state.newItemName,
+        description: this.state.newItemDescription,
+        category: this.state.newItemCategory,
+        price: this.state.newItemPrice,
+        condition: this.state.newItemCondition
       })
       this.setState({
-        todos: [...this.state.todos, newTodo],
-        newTodoName: ''
+        listings: [...this.state.listings, newListing],
+        newItemName: '',
+        newItemDescription: '',
+        newItemCategory: '',
+        newItemPrice: 0,
+        newItemCondition: ''
       })
     } catch {
-      alert('Todo creation failed')
+      alert('New Listing creation failed')
     }
   }
 
-  onTodoDelete = async (todoId: string) => {
+  onTodoDelete = async (itemId: string) => {
     try {
-      await deleteTodo(this.props.auth.getIdToken(), todoId)
+      await deleteItem(this.props.auth.getIdToken(), itemId)
       this.setState({
-        todos: this.state.todos.filter(todo => todo.todoId != todoId)
+        listings: this.state.listings.filter(listing => listing.itemId != itemId)
       })
     } catch {
       alert('Todo deletion failed')
@@ -73,47 +86,46 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
 
   onTodoCheck = async (pos: number) => {
     try {
-      const todo = this.state.todos[pos]
-      await patchTodo(this.props.auth.getIdToken(), todo.todoId, {
-        name: todo.name,
-        dueDate: todo.dueDate,
-        done: !todo.done
+      const listing = this.state.listings[pos]
+      await patchItem(this.props.auth.getIdToken(), listing.itemId, {
+        description: listing.description,
+        price: listing.price,
+        condition: listing.condition,
+        isAvailable: !listing.isAvailable
       })
       this.setState({
-        todos: update(this.state.todos, {
-          [pos]: { done: { $set: !todo.done } }
+        listings: update(this.state.listings, {
+          [pos]: { isAvailable: { $set: !listing.isAvailable } }
         })
       })
     } catch {
-      alert('Todo deletion failed')
+      alert('Item update failed')
     }
   }
 
   async componentDidMount() {
     try {
-      const todos = await getTodos(this.props.auth.getIdToken())
+      const listings = await getItems(this.props.auth.getIdToken())
       this.setState({
-        todos,
+        listings,
         loadingTodos: false
       })
     } catch (e) {
-      alert(`Failed to fetch todos: ${e.message}`)
+      alert(`Failed to fetch your previous listings: ${e.message}`)
     }
   }
 
   render() {
     return (
       <div>
-        <Header as="h1">TODOs</Header>
-
-        {this.renderCreateTodoInput()}
+        <Header as="h1">My Listings</Header>
 
         {this.renderTodos()}
       </div>
     )
   }
 
-  renderCreateTodoInput() {
+  /*renderCreateTodoInput() {
     return (
       <Grid.Row>
         <Grid.Column width={16}>
@@ -136,7 +148,7 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
         </Grid.Column>
       </Grid.Row>
     )
-  }
+  }*/
 
   renderTodos() {
     if (this.state.loadingTodos) {
@@ -150,7 +162,7 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
     return (
       <Grid.Row>
         <Loader indeterminate active inline="centered">
-          Loading TODOs
+          Loading all the listings
         </Loader>
       </Grid.Row>
     )
@@ -159,26 +171,26 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
   renderTodosList() {
     return (
       <Grid padded>
-        {this.state.todos.map((todo, pos) => {
+        {this.state.listings.map((listing, pos) => {
           return (
-            <Grid.Row key={todo.todoId}>
+            <Grid.Row key={listing.itemId}>
               <Grid.Column width={1} verticalAlign="middle">
                 <Checkbox
                   onChange={() => this.onTodoCheck(pos)}
-                  checked={todo.done}
+                  checked={listing.isAvailable}
                 />
               </Grid.Column>
               <Grid.Column width={10} verticalAlign="middle">
-                {todo.name}
+                {listing.name}
               </Grid.Column>
               <Grid.Column width={3} floated="right">
-                {todo.dueDate}
+                {listing.description}
               </Grid.Column>
               <Grid.Column width={1} floated="right">
                 <Button
                   icon
                   color="blue"
-                  onClick={() => this.onEditButtonClick(todo.todoId)}
+                  onClick={() => this.onEditButtonClick(listing.itemId)}
                 >
                   <Icon name="pencil" />
                 </Button>
@@ -187,13 +199,13 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
                 <Button
                   icon
                   color="red"
-                  onClick={() => this.onTodoDelete(todo.todoId)}
+                  onClick={() => this.onTodoDelete(listing.itemId)}
                 >
                   <Icon name="delete" />
                 </Button>
               </Grid.Column>
-              {todo.attachmentUrl && (
-                <Image src={todo.attachmentUrl} size="small" wrapped />
+              {listing.attachmentUrl && (
+                <Image src={listing.attachmentUrl} size="small" wrapped />
               )}
               <Grid.Column width={16}>
                 <Divider />
@@ -203,12 +215,5 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
         })}
       </Grid>
     )
-  }
-
-  calculateDueDate(): string {
-    const date = new Date()
-    date.setDate(date.getDate() + 7)
-
-    return dateFormat(date, 'yyyy-mm-dd') as string
   }
 }
