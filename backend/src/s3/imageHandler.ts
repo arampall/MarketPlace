@@ -10,22 +10,22 @@ const s3 = new XAWS.S3({
     signatureVersion: 'v4'
 });
 
-export function getUploadUrl(todoId: string){
+export function getUploadUrl(itemId: string){
     return s3.getSignedUrl('putObject', {
     Bucket: bucketName,
-    Key: todoId,
+    Key: itemId,
     Expires: urlExpiration
     });
 }
 
-export function getPreformedURL(todoId: string){
-    return `https://${bucketName}.s3.amazonaws.com/${todoId}`
+export function getPreformedURL(itemId: string){
+    return `https://${bucketName}.s3.amazonaws.com/${itemId}`
 }
 
-export async function removeImageFromS3(todoId: string){
+export async function removeImageFromS3(itemId: string){
     const params = {
         Bucket: bucketName,
-        Key: todoId
+        Key: itemId
     }
     try {
         await s3.headObject(params).promise()
