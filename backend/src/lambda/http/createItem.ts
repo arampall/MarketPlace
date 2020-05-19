@@ -3,18 +3,18 @@ import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } f
 import {createItem} from '../../businessLogic/itemService'
 import { CreateItemRequest } from '../../requests/CreateItemRequest'
 import { Item } from '../../models/Item';
-//import {getUserId} from '../utils';
 import { createLogger } from '../../utils/logger'
+import { getUserId } from '../utils';
 
 const logger = createLogger('createItem')
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const newItem: CreateItemRequest = JSON.parse(event.body)
-  logger.info('Event ', event.body);
+  logger.info(event.body);
   // TODO: Implement creating a new item
-  console.log("In Method");
+  console.log('New Item', newItem);
   logger.info('Starting to create a new item');
-  const userId: string = "hello"
+  const userId: string = getUserId(event)
   const item: Item = await createItem(newItem, userId); 
 
   return {

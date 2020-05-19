@@ -1,7 +1,4 @@
-/**
- * Fields in a request to update a single TODO item.
- */
-export interface UpdateItemRequest {
+export interface UpdateListingRequest {
   description: string
   price: number
   condition: string

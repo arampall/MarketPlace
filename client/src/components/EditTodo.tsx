@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { Form, Button } from 'semantic-ui-react'
+import { History } from 'history'
+import { Form, Button, Grid, Icon } from 'semantic-ui-react'
 import Auth from '../auth/Auth'
 import { getUploadUrl, uploadFile } from '../api/todos-api'
 
@@ -15,6 +16,7 @@ interface EditTodoProps {
       todoId: string
     }
   }
+  history: History
   auth: Auth
 }
 
@@ -73,6 +75,17 @@ export class EditTodo extends React.PureComponent<
   render() {
     return (
       <div>
+        <Grid>
+          <Button 
+          basic
+          floated='left'
+          icon
+          size='large'
+          onClick={() => this.props.history.goBack()}
+          >
+          <Icon name="arrow left" />  Back
+          </Button>
+        </Grid>
         <h1>Upload new image</h1>
 
         <Form onSubmit={this.handleSubmit}>

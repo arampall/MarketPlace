@@ -1,16 +1,18 @@
 import 'source-map-support/register'
 import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda'
-import {getAllCategories} from '../../businessLogic/itemService';
-import {Category} from '../../models/Category';
+import {getItemsByUser} from '../../businessLogic/itemService'
+import { Item } from '../../models/Item';
+import {getUserId} from '../utils';
 import { createLogger } from '../../utils/logger'
 
-const logger = createLogger('getAllCategories')
+const logger = createLogger('getItemsForUser')
 
 export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-  // TODO: Implement get all categories
-  logger.info('Starting to get all categories');
-  logger.info("processing event", event);
-  const items: Category[] = await getAllCategories() ; 
+  // TODO: Implement get all items by category
+  console.log("In Method");
+  logger.info('Starting to get all items by category');
+  const userId = getUserId(event);
+  const items: Item[] = await getItemsByUser(userId) ; 
 
   return {
     statusCode: 200,
