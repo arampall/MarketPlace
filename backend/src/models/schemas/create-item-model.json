@@ -1,0 +1,32 @@
+{
+    "$schema":"http://json-schema.org/draft-07/schema#",
+    "title": "create-item",
+    "type":"object",
+    "properties":{
+        "name":{
+            "type":"string"
+        },
+        "description":{
+            "type":"string"
+        },
+        "category":{
+            "type":"string"
+        },
+        "price":{
+            "type":"number"
+        },
+        "condition":{
+            "type":"string"
+        }
+    },
+    "required":[
+        "name",
+        "description",
+        "category",
+        "price",
+        "condition"
+        ],
+    "additionalProperties":false,
+    "description":"Fields in a request to create a single item.",
+    "definitions":{}
+}

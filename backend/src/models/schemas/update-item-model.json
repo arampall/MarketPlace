@@ -1,0 +1,33 @@
+{
+    "$schema":"http://json-schema.org/draft-07/schema#",
+    "title": "update-item",
+    "type":"object",
+    "properties":
+        {
+            "description": {
+                "type":"string"
+            },
+            "price":{
+                "type":"number"
+            },
+            "condition":{
+                "type":"string"
+            },
+            "isAvailable":{
+                "type":"boolean"
+            },
+            "category":{
+                "type":"string"
+            }
+        },
+    "required":[
+        "description",
+        "price",
+        "condition",
+        "isAvailable",
+        "category"
+    ],
+    "additionalProperties":false,
+    "description":"Fields in a request to update a single item.",
+    "definitions":{}
+}
