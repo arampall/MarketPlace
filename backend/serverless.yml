@@ -4,6 +4,8 @@ service:
 plugins:
   - serverless-webpack
   - serverless-iam-roles-per-function
+  - serverless-reqvalidator-plugin
+  - serverless-aws-documentation
 
 provider:
   tracing:
@@ -24,6 +26,21 @@ provider:
     IMAGE_PLACEHOLDER_URL: https://my-serverless-images.s3.amazonaws.com/images.png
     IMAGES_S3_BUCKET: images-for-listings-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
+
+custom:
+  documentation: 
+    api:
+      info:
+        version: v1.0.0
+        title: Local Marketplace
+        description: Sample marketplace app for buy/sell items.
+    models:
+      - name: CreateItemRequest
+        contentType: application/json
+        schema: ${file(src/models/schemas/create-item-model.json)}
+      - name: UpdateItemRequest
+        contentType: application/json
+        schema: ${file(src/models/schemas/update-item-model.json)}
 
 functions:
   Auth:
@@ -96,6 +113,12 @@ functions:
       - http:
           method: post
           path: items
+          reqValidatorName: RequestBodyValidator
+          documentation: 
+            summary: Create a new listing 
+            description: Create a new item
+            requestModels: 
+              'application/json': CreateItemRequest
           cors: true
           authorizer: Auth
     iamRoleStatements:
@@ -115,6 +138,12 @@ functions:
       - http:
           method: patch
           path: items/{itemId}
+          reqValidatorName: RequestBodyValidator
+          documentation: 
+            summary: Update an existing listing 
+            description: Update an item using the Item ID
+            requestModels: 
+              'application/json': UpdateItemRequest
           cors: true
           authorizer: Auth
     iamRoleStatements:
@@ -256,3 +285,12 @@ resources:
               Action: 's3:GetObject'
               Resource: 'arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*'
         Bucket: !Ref AttachmentsBucket
+
+    RequestBodyValidator:
+      Type: AWS::ApiGateway::RequestValidator
+      Properties:
+        Name: 'request-body-validator'
+        RestApiId: 
+          Ref: ApiGatewayRestApi
+        ValidateRequestBody: true
+        ValidateRequestParameters: false

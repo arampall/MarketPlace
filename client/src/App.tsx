@@ -42,6 +42,7 @@ export default class App extends Component<AppProps, AppState> {
     if(data.name){
       this.setState({activeItem: data.name})
     }
+    this.props.history.push('/');
   }
 
   render() {

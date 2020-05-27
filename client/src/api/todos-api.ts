@@ -3,6 +3,7 @@ import { Listing } from '../types/Listing';
 import { CreateListingRequest } from '../types/CreateListingRequest';
 import Axios from 'axios'
 import { UpdateListingRequest } from '../types/UpdateListingRequest';
+import {processImage} from '../utils/resizeImage';
 
 export async function getItems(idToken: string): Promise<Listing[]> {
   console.log('Fetching User Listings')
@@ -91,6 +92,8 @@ export async function getUploadUrl(
   return response.data.uploadUrl
 }
 
-export async function uploadFile(uploadUrl: string, file: Buffer): Promise<void> {
-  await Axios.put(uploadUrl, file)
+export async function uploadFile(uploadUrl: string, file: File): Promise<void> {
+  const resizedImage = await processImage(file);
+  console.log(resizedImage);
+  await Axios.put(uploadUrl, resizedImage)
 }
