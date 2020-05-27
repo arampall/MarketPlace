@@ -236,6 +236,8 @@ resources:
             AttributeType: S
           - AttributeName: createdAt
             AttributeType: S
+          - AttributeName: price
+            AttributeType: N
         KeySchema:
           - AttributeName: userId
             KeyType: HASH
