@@ -18,7 +18,7 @@ This application will allow creating/removing/updating/fetching user listings. E
 
 The application provides the major functionalities in two different screens or views.
 1. All item listings:
-    This screen displays all the items that are available for sale. Any user can checkout the items and contact the seller if            interested. This screen doesnot require any authentication and it is available to all.
+    This screen displays all the items that are available for sale. Any user can search the items and contact the seller if interested. This screen does not require any authentication and it is available to all.
 2. My Listings: 
     This screen has all the listings created by a specific logged-in user. The user can create a new listing, add an image to the existing listing and delete a listing. Additionally, the user can make an item available/un-available.
     
@@ -56,6 +56,30 @@ All the api for features is configured using the serverless yaml file.
 A custom authorizer for API Gateway that validates all other functions.
 
 ### GetItemByCategory
+Currently this feature fetches all the items whose isAvailable flag is true. This is to provide all the users, the ability to search through the list of items on sale. The response is an array of items in the below format.
+
+```json
+{
+  "items": [
+    {
+      "userId": "111",
+      "itemId": "123",
+      "name": "Headphones",
+      "description": "Have HeadPhones to sell",
+      "category": "Electronics",
+      "categoryStatus": "Electronics",
+      "condition": "New",
+      "createdAt": "2020-05-19T07:20:51.583Z",      
+      "isAvailable": true,
+      "price": "80",
+      "attachmentUrl": "http://example.com/image.png"
+    }
+  ]
+}
+```
+Future scope:
+1. Currently the api fetches all the items irrespective of their category. Filtering the items based on the category is yet to be done.
+2. Display only a limited items per page to avoid huge data to be queried. This needs to be implemented in the frontend. Pagination has already been implemented in the backend. 
 
 ### GetItemByUser
 Returns all items for a current user. A user id can be extracted from a JWT token that is sent by the frontend
@@ -149,10 +173,10 @@ It returns a JSON object that looks like this:
   "uploadUrl": "https://s3-bucket-name.s3.eu-west-2.amazonaws.com/image.png"
 }
 ```
-
-All functions are already connected to appropriate events from API Gateway.
-
-An id of a user can be extracted from a JWT token passed by a client.
+## Points to Note:
+1. All functions are already connected to appropriate events from API Gateway.
+2. An id of a user can be extracted from a JWT token passed by a client.
+3. The body of the post requests for CreateItem and UpdateItem are validated using the serverless-reqvalidator-plugin. The JSON schemas are stored in src/models/schemas/
 
 
 # REST Endpoints:
