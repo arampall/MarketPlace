@@ -45,8 +45,6 @@ export async function createItem(
   idToken: string,
   newItem: CreateListingRequest
 ): Promise<Listing> {
-  console.log(newItem);
-  console.log(typeof(newItem.price));
   const response = await Axios.post(`${apiEndpoint}/items`,  JSON.stringify(newItem), {
     headers: {
       'Content-Type': 'application/json',
@@ -96,6 +94,5 @@ export async function getUploadUrl(
 
 export async function uploadFile(uploadUrl: string, file: File): Promise<void> {
   const resizedImage = await processImage(file);
-  console.log(resizedImage);
   await Axios.put(uploadUrl, resizedImage)
 }
