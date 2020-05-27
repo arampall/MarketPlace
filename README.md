@@ -12,7 +12,7 @@ npm i
 ```ts
 npm run start
 ```
-# Functionality of the application
+## Functionality of the application
 
 This application will allow creating/removing/updating/fetching user listings. Each item can optionally have an attachment image. Each user has access to modify/delete listings that he/she has created. Also the application allows access to see all the available items for sale without any authentication.
 
@@ -77,7 +77,7 @@ Currently this feature fetches all the items whose isAvailable flag is true. Thi
   ]
 }
 ```
-Future scope:
+#### Future scope:
 1. Currently the api fetches all the items irrespective of their category. Filtering the items based on the category is yet to be done.
 2. Display only a limited items per page to avoid huge data to be queried. This needs to be implemented in the frontend. Pagination has already been implemented in the backend. 
 
@@ -179,10 +179,13 @@ It returns a JSON object that looks like this:
 3. The body of the post requests for CreateItem and UpdateItem are validated using the serverless-reqvalidator-plugin. The JSON schemas are stored in src/models/schemas/
 
 
-# REST Endpoints:
+## REST Endpoints:
 [GET ALL ITEMS](#getitembycategory) - https://ce1rbv3fbd.execute-api.us-east-1.amazonaws.com/dev/category/{categoryName}/items  
 [GET USER ITEMS](#getitembyuser) - https://ce1rbv3fbd.execute-api.us-east-1.amazonaws.com/dev/items   
 [CREATE ITEM](#createitem) - https://ce1rbv3fbd.execute-api.us-east-1.amazonaws.com/dev/items   
 [UPDATE ITEM](#updateitem) - https://ce1rbv3fbd.execute-api.us-east-1.amazonaws.com/dev/items/{itemId}   
 [DELETE ITEM](#deleteitem) - https://ce1rbv3fbd.execute-api.us-east-1.amazonaws.com/dev/items/{itemId}   
 [GENERATE UPLOAD URL](#generateuploadurl) - https://ce1rbv3fbd.execute-api.us-east-1.amazonaws.com/dev/items/{itemId}/attachment
+
+
+## Postman collection can be used to test the API. 

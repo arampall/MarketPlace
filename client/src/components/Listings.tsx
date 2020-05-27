@@ -76,7 +76,7 @@ export class Listings extends React.PureComponent<ListingsProps, ListingsState> 
 
   renderSaleItems() {
     return (
-      <Grid.Column padded columns="equal">
+      <Grid.Column padded="true" columns="equal">
         <CardGroup itemsPerRow='3'>
           {this.state.listings.map((listing, pos) => {
             return (

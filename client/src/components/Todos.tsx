@@ -76,7 +76,6 @@ export class Todos extends React.PureComponent<ListingsProps, ListingsState> {
 
   onTodoCreate = async (event: React.FormEvent<HTMLFormElement>, data: FormProps) => {
     try {
-      console.log(typeof(this.state.newItemPrice));
       const newListing: Listing = await createItem(this.props.auth.getIdToken(), {
         name: this.state.newItemName,
         description: this.state.newItemDescription,

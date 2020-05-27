@@ -1,0 +1,217 @@
+{
+	"info": {
+		"_postman_id": "e1d6d04a-80e5-4a52-b8f2-0ca76004c8d4",
+		"name": "Udacity-capstone",
+		"description": "All the API used for this project.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetAllCategories",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://ce1rbv3fbd.execute-api.us-east-1.amazonaws.com/dev/categories",
+					"protocol": "https",
+					"host": [
+						"ce1rbv3fbd",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteItem",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://ce1rbv3fbd.execute-api.us-east-1.amazonaws.com/dev/items/f9338f11-695e-4d92-9082-0d02870fafa1",
+					"protocol": "https",
+					"host": [
+						"ce1rbv3fbd",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"items",
+						"f9338f11-695e-4d92-9082-0d02870fafa1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateItemAvailability",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"description\": \"TV on sale. Hurry up\",\r\n  \"isAvailable\": false,\r\n  \"price\": 300,\r\n  \"condition\": \"good\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://ce1rbv3fbd.execute-api.us-east-1.amazonaws.com/dev/items/{itemId}",
+					"protocol": "https",
+					"host": [
+						"ce1rbv3fbd",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"items",
+						"{itemId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateItem",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Bike\",\r\n  \"description\": \"Kawasaki bike for sale\",\r\n  \"category\": \"Other\",\r\n  \"price\": 4000,\r\n  \"condition\": \"Good\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://ce1rbv3fbd.execute-api.us-east-1.amazonaws.com/dev/items",
+					"protocol": "https",
+					"host": [
+						"ce1rbv3fbd",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllAvailableItems",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://ce1rbv3fbd.execute-api.us-east-1.amazonaws.com/dev/category/All/items",
+					"protocol": "https",
+					"host": [
+						"ce1rbv3fbd",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"category",
+						"All",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllItemsForUser",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://ce1rbv3fbd.execute-api.us-east-1.amazonaws.com/dev/items",
+					"protocol": "https",
+					"host": [
+						"ce1rbv3fbd",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"items"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{auth}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "2fce2980-b2af-42bd-99c9-b683a8b8c299",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "b4204a0f-b9f1-47ce-a4db-c4cb81d77e6a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "bf2762a7-00b1-4b73-9866-6e5c1fa9ff8f",
+			"key": "auth",
+			"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlczWVZOanFPY3lrcXRGX1dwd2JiNCJ9.eyJpc3MiOiJodHRwczovL2Rldi04bzh5NmNuaC5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDQwNjk5NDUzMTA3NDIxMjA5OTMiLCJhdWQiOiJjOWRVczFENFp3ZE8xY3llUDJHUmFnUGFxWkJVSkg0cyIsImlhdCI6MTU5MDYxODk5MywiZXhwIjoxNTkxMDUwOTkzLCJhdF9oYXNoIjoiSFB5Q191RHBmMnRDSmJqandoVlAzQSIsIm5vbmNlIjoifm8wMGQ3Yy54dkc2Nm0xNnVpOU5sUlNBcFhnVnA2ZUYifQ.IC4pUgLkzZb5PaYyugatgWa-h5tTJ52khSDMg4Zj03SrQWhw3pciGbtLejuiPVeU909XnABRckvkDJybGxJL5zOVI4abhXZd9XRQhO196nG8pgHcYbfKztl_ohQjivoihMVbZbIHhSeNGqo6-AAC6mGcon0caipUqhptRhCEbaHHKpSIXPNmRdsZRAt-V2RlOND669BrYKpvy6wmafAGMY6a_tC5Qfa4wPfaObhvV3pnRKNaVcqkme8gG7XOjKtA_aZAoYJibLnWfNw9aOwvfhwwCzUIGs-r21SLyGajZt74aOq67Gmni_AY_tn1FKm1ZUZGiwAE_eNkf8guof9_Ig",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
