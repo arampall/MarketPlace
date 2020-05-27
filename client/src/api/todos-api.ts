@@ -45,6 +45,8 @@ export async function createItem(
   idToken: string,
   newItem: CreateListingRequest
 ): Promise<Listing> {
+  console.log(newItem);
+  console.log(typeof(newItem.price));
   const response = await Axios.post(`${apiEndpoint}/items`,  JSON.stringify(newItem), {
     headers: {
       'Content-Type': 'application/json',

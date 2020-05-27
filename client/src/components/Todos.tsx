@@ -76,11 +76,12 @@ export class Todos extends React.PureComponent<ListingsProps, ListingsState> {
 
   onTodoCreate = async (event: React.FormEvent<HTMLFormElement>, data: FormProps) => {
     try {
-      const newListing = await createItem(this.props.auth.getIdToken(), {
+      console.log(typeof(this.state.newItemPrice));
+      const newListing: Listing = await createItem(this.props.auth.getIdToken(), {
         name: this.state.newItemName,
         description: this.state.newItemDescription,
         category: this.state.newItemCategory,
-        price: this.state.newItemPrice,
+        price: Number(this.state.newItemPrice),
         condition: this.state.newItemCondition
       })
       this.setState({
