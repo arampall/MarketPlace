@@ -80,6 +80,7 @@ Currently this feature fetches all the items whose isAvailable flag is true. Thi
 #### Future scope:
 1. Currently the api fetches all the items irrespective of their category. Filtering the items based on the category is yet to be done.
 2. Display only a limited items per page to avoid huge data to be queried. This needs to be implemented in the frontend. Pagination has already been implemented in the backend. 
+3. Allow the ability of the seller to provide contact information in case any user is interested in an item.
 
 ### GetItemByUser
 Returns all items for a current user. A user id can be extracted from a JWT token that is sent by the frontend
