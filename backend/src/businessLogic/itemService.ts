@@ -34,7 +34,7 @@ export async function createItem(
         userId: userId,
         itemId: itemId,
         createdAt: new Date().toISOString(),
-        isAvailable: true,
+        isAvailable: false,
         attachmentUrl: image_placeholder_url,
         categoryStatus: requestItem.category,
         ...requestItem
